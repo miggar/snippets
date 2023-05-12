@@ -9,10 +9,16 @@
 
   <style>
     @media screen and (orientation: portrait) {
-      body { background-color: lightblue }  
+      body { background-color: lightblue }
+      body:fullscreen, ::backdrop {
+        background-color: lightcyan;
+      }
     }
     @media screen and (orientation: landscape) {
       body { background-color: lightgreen }
+      body:fullscreen, ::backdrop {
+        background-color: lightseagreen;
+      }
     }
   </style>
 
@@ -59,6 +65,7 @@
   <h1>Bloquear la orientación de la pantalla</h1>
   <p>Esta página está bloqueada en la orientación vertical</p>
   <button onclick="fullScreenAndLock()">Pantalla completa y bloqueo de orientación</button>
+  <br />
   <button onclick="unlockOrientation()">Desbloquear la orientación</button>  
 </body>
 </html>
