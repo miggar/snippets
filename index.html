@@ -8,6 +8,20 @@
   <title>No voltear</title>
 
   <style>
+    /* RESET */
+    *, *::before, *::after { box-sizing: border-box }
+    * { margin: 0 }
+
+    body { padding: 20px }
+    button {
+      padding: 10px;
+      margin: 10px;
+      outline: unset;
+      border: 1px solid cadetblue;
+      border-radius: 3px;
+      background-color: white;
+    }
+
     @media screen and (orientation: portrait) {
       body { background-color: lightblue }
       body:fullscreen, ::backdrop {
@@ -26,7 +40,7 @@
     const _portrait = "portrait"
 
     // Pantalla completa
-    function openFullscreen() {      
+    function openFullscreen() {
       const elem = document.body;
       if (elem.requestFullscreen)
         elem.requestFullscreen();
@@ -43,12 +57,16 @@
       else if ("mozLockOrientation" in screen) screen.mozLockOrientation(_portrait);
       else if ("msLockOrientation" in screen)  screen.msLockOrientation(_portrait);
       else if ("lockOrientation" in screen && screen.orientation?.type === "landscape-primary") screen.orientation.lock("portrait-primary");
+      document.querySelector("#btn_unlockOrientation").hidden = false;
+      document.querySelector("#btn_lockOrientation").hidden = true;
     }
 
     // Pantalla completa y bloqueo de orientación
     function fullScreenAndLock() {
       openFullscreen();
       setTimeout( lockOrientation, 200);
+      document.querySelector("#btn_fullScreenAndLock").hidden = true;
+      document.querySelector("#btn_closeFullscreen").hidden = false;
     }
 
     // Desbloquear la vista
@@ -57,6 +75,23 @@
       else if ("unlockOrientation" in screen)    screen.unlockOrientation();
       else if ("mozUnlockOrientation" in screen) screen.mozUnlockOrientation();
       else if ("msUnlockOrientation" in screen)  screen.msUnlockOrientation();
+      document.querySelector("#btn_lockOrientation").hidden = false;
+      document.querySelector("#btn_unlockOrientation").hidden = true;
+    }
+
+    // Salir de la pantalla completa
+    function closeFullscreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+      }
+      document.querySelector("#btn_fullScreenAndLock").hidden = false;
+      document.querySelector("#btn_closeFullscreen").hidden = true;
+      document.querySelector("#btn_lockOrientation").hidden = true;
+      document.querySelector("#btn_unlockOrientation").hidden = true;
     }
 
   </script>
@@ -64,8 +99,9 @@
 <body>
   <h1>Bloquear la orientación de la pantalla</h1>
   <p>Esta página está bloqueada en la orientación vertical</p>
-  <button onclick="fullScreenAndLock()">Pantalla completa y bloqueo de orientación</button>
-  <br />
-  <button onclick="unlockOrientation()">Desbloquear la orientación</button>  
+  <button id="btn_fullScreenAndLock" onclick="fullScreenAndLock()">Pantalla completa y bloqueo de orientación</button>
+  <button id="btn_closeFullscreen" onclick="closeFullscreen()" hidden>Salir de la pantalla completa</button>
+  <button id="btn_lockOrientation" onclick="lockOrientation()" hidden>bloquear la orientación</button>
+  <button id="btn_unlockOrientation" onclick="unlockOrientation()" hidden>Desbloquear la orientación</button>  
 </body>
 </html>
