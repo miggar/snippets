@@ -20,7 +20,8 @@
     const _portrait = "portrait"
 
     // Pantalla completa
-    function openFullscreen() {
+    function openFullscreen() {      
+      const elem = document.body;
       if (elem.requestFullscreen)
         elem.requestFullscreen();
       else if (elem.webkitRequestFullscreen) /* Safari */
@@ -57,7 +58,7 @@
 <body>
   <h1>Bloquear la orientación de la pantalla</h1>
   <p>Esta página está bloqueada en la orientación vertical</p>
-  <button onclick="fullScreenAndLock()">Pantalla completa y bloquear orientación</button>
+  <button onclick="fullScreenAndLock()">Pantalla completa y bloqueo de orientación</button>
   <button onclick="unlockOrientation()">Desbloquear la orientación</button>  
 </body>
 </html>
