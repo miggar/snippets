@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- https://stackoverflow.com/questions/30034127/screen-orientation-on-tablet-error -->
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -18,6 +19,16 @@
   <script>
     const _portrait = "portrait"
 
+    // Pantalla completa
+    function openFullscreen() {
+      if (elem.requestFullscreen)
+        elem.requestFullscreen();
+      else if (elem.webkitRequestFullscreen) /* Safari */
+        elem.webkitRequestFullscreen();
+      else if (elem.msRequestFullscreen) /* IE11 */
+        elem.msRequestFullscreen();
+    }
+
     // Bloquear la vista en la orientaqción vertical
     function lockOrientation() {
       if ("lock" in screen.orientation)        screen.orientation.lock(_portrait);
@@ -25,6 +36,12 @@
       else if ("mozLockOrientation" in screen) screen.mozLockOrientation(_portrait);
       else if ("msLockOrientation" in screen)  screen.msLockOrientation(_portrait);
       else if ("lockOrientation" in screen && screen.orientation?.type === "landscape-primary") screen.orientation.lock("portrait-primary");
+    }
+
+    // Pantalla completa y bloqueo de orientación
+    function fullScreenAndLock() {
+      openFullscreen();
+      setTimeout( lockOrientation, 200);
     }
 
     // Desbloquear la vista
@@ -37,9 +54,10 @@
 
   </script>
 </head>
-<body onload="lockOrientation()">
+<body>
   <h1>Bloquear la orientación de la pantalla</h1>
   <p>Esta página está bloqueada en la orientación vertical</p>
+  <button onclick="fullScreenAndLock()">Pantalla completa y bloquear orientación</button>
   <button onclick="unlockOrientation()">Desbloquear la orientación</button>  
 </body>
 </html>
