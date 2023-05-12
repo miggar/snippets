@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No voltear</title>
+
+  <style>
+    @media screen and (orientation: portrait) {
+      body { background-color: lightblue }  
+    }
+    @media screen and (orientation: landscape) {
+      body { background-color: lightgreen }
+    }
+  </style>
+
+  <script>
+    const _portrait = "portrait"
+
+    // Bloquear la vista en la orientaqción vertical
+    function lockOrientation() {
+      if ("lock" in screen.orientation)        screen.orientation.lock(_portrait);
+      else if ("lockOrientation" in screen)    screen.lockOrientation(_portrait);
+      else if ("mozLockOrientation" in screen) screen.mozLockOrientation(_portrait);
+      else if ("msLockOrientation" in screen)  screen.msLockOrientation(_portrait);
+      else if ("lockOrientation" in screen && screen.orientation?.type === "landscape-primary") screen.orientation.lock("portrait-primary");
+    }
+
+    // Desbloquear la vista
+    function unlockOrientation() {
+      if ("unlock" in screen.orientation)        screen.orientation.unlock();
+      else if ("unlockOrientation" in screen)    screen.unlockOrientation();
+      else if ("mozUnlockOrientation" in screen) screen.mozUnlockOrientation();
+      else if ("msUnlockOrientation" in screen)  screen.msUnlockOrientation();
+    }
+
+  </script>
+</head>
+<body onload="lockOrientation()">
+  <h1>Bloquear la orientación de la pantalla</h1>
+  <p>Esta página está bloqueada en la orientación vertical</p>
+  <button onclick="unlockOrientation()">Desbloquear la orientación</button>  
+</body>
+</html>
